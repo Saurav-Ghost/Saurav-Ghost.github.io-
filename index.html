@@ -280,6 +280,90 @@
             font-family: 'Space Mono', monospace;
         }
         
+        /* New styles for formatted response */
+        .response-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .response-table th {
+            background-color: rgba(106, 90, 205, 0.3);
+            color: var(--accent);
+            padding: 10px;
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .response-table td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+        }
+        
+        .response-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .response-table tr:hover td {
+            background-color: rgba(106, 90, 205, 0.1);
+        }
+        
+        .property-name {
+            color: var(--secondary);
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        
+        .property-value {
+            color: var(--light);
+            word-break: break-word;
+        }
+        
+        .nested-object {
+            background-color: rgba(15, 5, 38, 0.3);
+            padding: 5px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        
+        .array-item {
+            display: block;
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+        
+        .array-item::before {
+            content: "•";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+        
+        .success-response {
+            border-color: var(--success) !important;
+            animation: pulse-success 2s ease-in-out;
+        }
+        
+        .error-response {
+            border-color: var(--danger) !important;
+        }
+        
+        .error-message {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        @keyframes pulse-success {
+            0%, 100% { box-shadow: 0 0 0 rgba(124, 252, 0, 0); }
+            50% { box-shadow: 0 0 15px rgba(124, 252, 0, 0.3); }
+        }
+        
         @media (max-width: 768px) {
             .container {
                 margin: 15px auto;
@@ -296,6 +380,14 @@
             
             .content {
                 padding: 20px;
+            }
+            
+            .response-table {
+                font-size: 0.8rem;
+            }
+            
+            .response-table td, .response-table th {
+                padding: 8px 5px;
             }
         }
     </style>
@@ -366,13 +458,17 @@
             const responseDiv = document.getElementById('response');
             
             if (!userId) {
-                responseDiv.textContent = "Please enter a valid Cosmic User ID";
-                responseDiv.style.borderColor = "var(--danger)";
+                responseDiv.innerHTML = `<div class="error-message" style="color: var(--danger)">
+                    <i class="fas fa-exclamation-circle"></i> Please enter a valid Cosmic User ID
+                </div>`;
+                responseDiv.classList.add('error-response');
                 createStarBurst(responseDiv);
                 return;
             }
 
-            responseDiv.textContent = "";
+            responseDiv.innerHTML = "";
+            responseDiv.classList.add('loading');
+            responseDiv.className = ''; // Clear previous classes
             responseDiv.classList.add('loading');
             responseDiv.style.borderColor = "rgba(255, 215, 0, 0.3)";
             
@@ -412,15 +508,81 @@
 
                 const data = await response.json();
                 responseDiv.classList.remove('loading');
-                responseDiv.textContent = JSON.stringify(data, null, 2);
-                responseDiv.style.borderColor = "var(--success)";
+                responseDiv.innerHTML = formatResponse(data);
+                responseDiv.classList.add('success-response');
                 createStarBurst(responseDiv, "var(--success)");
             } catch (error) {
                 responseDiv.classList.remove('loading');
-                responseDiv.textContent = `Error: ${error.message}`;
-                responseDiv.style.borderColor = "var(--danger)";
+                responseDiv.innerHTML = `<div class="error-message" style="color: var(--danger)">
+                    <i class="fas fa-exclamation-triangle"></i> Error: ${error.message}
+                </div>`;
+                responseDiv.classList.add('error-response');
                 createStarBurst(responseDiv, "var(--danger)");
             }
+        }
+        
+        function formatResponse(data) {
+            if (!data) return '<div class="empty-response">No data received</div>';
+            
+            let html = '<table class="response-table">';
+            
+            for (const [key, value] of Object.entries(data)) {
+                html += `
+                    <tr>
+                        <td class="property-name">${escapeHtml(key)}</td>
+                        <td class="property-value">${formatValue(value)}</td>
+                    </tr>
+                `;
+            }
+            
+            html += '</table>';
+            return html;
+        }
+        
+        function formatValue(value) {
+            if (value === null) return '<span style="color: var(--warning)">null</span>';
+            if (value === undefined) return '<span style="color: var(--warning)">undefined</span>';
+            
+            if (typeof value === 'object') {
+                if (Array.isArray(value)) {
+                    if (value.length === 0) return '<span style="color: var(--info)">Empty array</span>';
+                    
+                    let html = '';
+                    value.forEach((item, index) => {
+                        html += `<div class="array-item">${formatValue(item)}</div>`;
+                    });
+                    return html;
+                } else {
+                    // Handle nested objects
+                    let html = '<div class="nested-object">';
+                    for (const [nestedKey, nestedValue] of Object.entries(value)) {
+                        html += `<div><strong>${escapeHtml(nestedKey)}:</strong> ${formatValue(nestedValue)}</div>`;
+                    }
+                    html += '</div>';
+                    return html;
+                }
+            }
+            
+            // Format based on type
+            if (typeof value === 'string') {
+                return escapeHtml(value);
+            } else if (typeof value === 'number') {
+                return `<span style="color: var(--info)">${value}</span>`;
+            } else if (typeof value === 'boolean') {
+                return `<span style="color: ${value ? 'var(--success)' : 'var(--danger)'}">${value}</span>`;
+            }
+            
+            return escapeHtml(String(value));
+        }
+        
+        function escapeHtml(unsafe) {
+            return unsafe
+                .toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         }
         
         function createStarBurst(element, color = "var(--accent)") {

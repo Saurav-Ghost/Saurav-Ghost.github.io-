@@ -3,641 +3,473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mysterious Ghost</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <title>Starmaker - Recharge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root {
-            --primary: #6a5acd; /* Royal purple */
-            --secondary: #9370db; /* Medium purple */
-            --accent: #ffd700; /* Gold */
-            --light: #f8f8ff; /* Ghost white */
-            --dark: #0f0526; /* Deep space */
-            --success: #7cfc00; /* Lawn green */
-            --info: #00bfff; /* Deep sky blue */
-            --warning: #ffa500; /* Orange */
-            --danger: #ff4500; /* Orange red */
-        }
-        
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
         
         body {
-            font-family: 'Space Mono', monospace;
-            background-color: var(--dark);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 30%, rgba(106, 90, 205, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 50% 80%, rgba(147, 112, 219, 0.1) 0%, transparent 20%);
-            color: var(--light);
-            min-height: 100vh;
-            padding: 20px;
-            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: #333;
         }
         
         .container {
-            max-width: 900px;
-            margin: 30px auto;
-            background: rgba(15, 5, 38, 0.8);
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(106, 90, 205, 0.3);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-            border: 1px solid var(--accent);
-        }
-        
-        .container::before {
-            content: "";
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--accent), var(--primary), var(--secondary), var(--accent));
-            background-size: 400%;
-            border-radius: 22px;
-            z-index: -1;
-            opacity: 0.7;
-            animation: animate-border 20s linear infinite;
-        }
-        
-        @keyframes animate-border {
-            0% { background-position: 0 0; }
-            50% { background-position: 400% 0; }
-            100% { background-position: 0 0; }
-        }
-        
-        .container:hover {
-            box-shadow: 0 0 50px rgba(106, 90, 205, 0.5);
-            transform: translateY(-5px);
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
         .header {
-            background: linear-gradient(135deg, rgba(106, 90, 205, 0.3) 0%, rgba(15, 5, 38, 0.7) 100%);
-            color: var(--accent);
-            padding: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-        }
-        
-        .header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 30%),
-                radial-gradient(circle at 80% 70%, rgba(106, 90, 205, 0.1) 0%, transparent 30%);
-        }
-        
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            position: relative;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            letter-spacing: 2px;
-        }
-        
-        .subtitle {
-            font-weight: 300;
-            opacity: 0.9;
-            font-size: 1.1rem;
-            color: var(--light);
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .input-group {
-            margin-bottom: 25px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--accent);
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-        }
-        
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background-color: rgba(15, 5, 38, 0.5);
-            color: var(--light);
-            font-family: 'Space Mono', monospace;
-        }
-        
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
-            outline: none;
-            background-color: rgba(15, 5, 38, 0.8);
-        }
-        
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-            font-style: italic;
-        }
-        
-        button {
-            background: linear-gradient(135deg, var(--accent) 0%, #daa520 100%);
-            color: var(--dark);
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .header img {
+            width: 32px;
+            margin-right: 10px;
+        }
+        
+        .header h1 {
+            color: #ff4d8e;
+            font-size: 24px;
+        }
+        
+        .sid-section {
+            margin-bottom: 20px;
+        }
+        
+        .sid-title {
+            color: #ff4d8e;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .account-input {
             width: 100%;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
         }
         
-        button::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
+        .profile-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
         }
         
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+        .profile-info {
+            text-align: right;
+            margin-right: 10px;
         }
         
-        button:hover::before {
-            left: 100%;
-        }
-        
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
-        }
-        
-        button i {
-            margin-right: 8px;
-        }
-        
-        #response {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: rgba(15, 5, 38, 0.5);
-            border: 1px dashed rgba(255, 215, 0, 0.3);
-            border-radius: 10px;
-            min-height: 150px;
-            white-space: pre-wrap;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--light);
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        #response:empty::before {
-            content: "Cosmic data will appear here...";
-            color: rgba(255, 255, 255, 0.3);
-            font-style: italic;
-        }
-        
-        .loading {
-            position: relative;
-            color: transparent;
-        }
-        
-        .loading::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
-            border: 3px solid rgba(255, 215, 0, 0.1);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            animation: twinkle var(--duration) infinite ease-in-out;
-            opacity: 0;
-        }
-        
-        @keyframes twinkle {
-            0%, 100% { opacity: 0; }
-            50% { opacity: var(--opacity); }
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.8rem;
-            font-family: 'Space Mono', monospace;
-        }
-        
-        /* New styles for formatted response */
-        .response-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-        
-        .response-table th {
-            background-color: rgba(106, 90, 205, 0.3);
-            color: var(--accent);
-            padding: 10px;
-            text-align: left;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-        }
-        
-        .response-table td {
-            padding: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            vertical-align: top;
-        }
-        
-        .response-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .response-table tr:hover td {
-            background-color: rgba(106, 90, 205, 0.1);
-        }
-        
-        .property-name {
-            color: var(--secondary);
+        .profile-name {
             font-weight: bold;
-            white-space: nowrap;
+            font-size: 14px;
+            color: #ff4d8e;
         }
         
-        .property-value {
-            color: var(--light);
-            word-break: break-word;
+        .profile-id {
+            font-size: 12px;
+            color: #666;
         }
         
-        .nested-object {
-            background-color: rgba(15, 5, 38, 0.3);
-            padding: 5px;
-            border-radius: 5px;
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ff4d8e;
+        }
+        
+        /* Rest of your existing CSS remains the same */
+        .recharge-options {
+            margin-bottom: 20px;
+        }
+        
+        .recharge-options h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .option-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-card:hover, .option-card.selected {
+            border-color: #ff4d8e;
+            background-color: #fff8fa;
+        }
+        
+        .option-card.selected {
+            border: 2px solid #ff4d8e;
+        }
+        
+        .option-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .option-coins {
+            font-size: 14px;
+            color: #ff4d8e;
             margin-top: 5px;
         }
         
-        .array-item {
-            display: block;
-            margin-bottom: 5px;
-            padding-left: 15px;
-            position: relative;
+        .option-bonus {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
         }
         
-        .array-item::before {
-            content: "•";
-            color: var(--accent);
-            position: absolute;
-            left: 0;
+        .payment-methods {
+            margin-bottom: 20px;
         }
         
-        .success-response {
-            border-color: var(--success) !important;
-            animation: pulse-success 2s ease-in-out;
+        .payment-methods h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
         }
         
-        .error-response {
-            border-color: var(--danger) !important;
-        }
-        
-        .error-message {
+        .method-option {
             display: flex;
             align-items: center;
-            gap: 8px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
         }
         
-        @keyframes pulse-success {
-            0%, 100% { box-shadow: 0 0 0 rgba(124, 252, 0, 0); }
-            50% { box-shadow: 0 0 15px rgba(124, 252, 0, 0.3); }
+        .method-option.selected {
+            border-color: #ff4d8e;
+            background-color: #fff8fa;
         }
         
-        @media (max-width: 768px) {
-            .container {
-                margin: 15px auto;
-                border-radius: 15px;
-            }
-            
-            .header {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-            
-            .response-table {
-                font-size: 0.8rem;
-            }
-            
-            .response-table td, .response-table th {
-                padding: 8px 5px;
-            }
+        .method-icon {
+            width: 40px;
+            height: 25px;
+            object-fit: contain;
+            margin-right: 15px;
+        }
+        
+        .method-info {
+            flex: 1;
+        }
+        
+        .method-name {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .method-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .recharge-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ff4d8e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 10px;
+        }
+        
+        .recharge-button:hover {
+            background-color: #e63d7e;
+        }
+        
+        .upi-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .upi-button i {
+            margin-right: 10px;
+        }
+        
+        .upi-button:hover {
+            background-color: #5a52d6;
+        }
+        
+        .whatsapp-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .whatsapp-button i {
+            margin-right: 10px;
+        }
+        
+        .whatsapp-button:hover {
+            background-color: #1da851;
+        }
+        
+        .contact-section {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .contact-link {
+            color: #ff4d8e;
+            text-decoration: none;
+        }
+        
+        .promo-section {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .promo-link {
+            color: #ff4d8e;
+            text-decoration: none;
+            font-size: 14px;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    
     <div class="container">
-        <div class="header">
-            <h1><i class="fas fa-star"></i> Ghost Star </h1>
-            <p class="subtitle">Unlock celestial user data from the cosmos</p>
+        <div class="profile-section">
+            <div class="profile-info">
+                <div class="profile-name">👑Ƥ𐍂єϻ°🌟ℒᵒʳᵈˢ</div>
+                <div class="profile-id">ID : 13319014051</div>
+            </div>
+            <img src="https://improxy.starmakerstudios.com/tools/im/200/production/users/6473924135569227/profile.jpg?ts=1738820962" 
+                 alt="Profile" class="profile-pic"
+                 onerror="this.src='https://via.placeholder.com/50x50?text=Profile'">
         </div>
         
-        <div class="content">
-            <div class="input-group">
-                <label for="userId"><i class="fas fa-user-astronaut"></i> Enter Cosmic SID</label>
-                <input type="text" id="userId" placeholder="e.g., 123456">
+        <div class="header">
+            <!-- Starmaker logo -->
+            <img src="https://www.starmakerstudios.com/cdn/home/asset/sm_favicon.ico" alt="Starmaker Logo" onerror="this.src='https://via.placeholder.com/32x32?text=SM'">
+            <h1>Recharge Center</h1>
+        </div>
+        
+        <div class="sid-section">
+            <div class="sid-title">StarMaker SID</div>
+            <input type="text" class="account-input" placeholder="Input your account ID">
+        </div>
+        
+        <!-- Rest of your HTML remains the same -->
+        <div class="recharge-options">
+            <h2>Select Recharge Amount</h2>
+            <div class="option-grid">
+                <div class="option-card" onclick="selectOption(this)">
+                    <div class="option-amount">₹79</div>
+                    <div class="option-coins">100 Coins</div>
+                    <div class="option-bonus">No Bonus</div>
+                </div>
+                <div class="option-card" onclick="selectOption(this)">
+                    <div class="option-amount">₹399</div>
+                    <div class="option-coins">500 Coins</div>
+                    <div class="option-bonus">+50 Bonus</div>
+                </div>
+                <div class="option-card selected" onclick="selectOption(this)">
+                    <div class="option-amount">₹799</div>
+                    <div class="option-coins">1,000 Coins</div>
+                    <div class="option-bonus">+200 Bonus</div>
+                </div>
+                <div class="option-card" onclick="selectOption(this)">
+                    <div class="option-amount">₹1,599</div>
+                    <div class="option-coins">2,000 Coins</div>
+                    <div class="option-bonus">+500 Bonus</div>
+                </div>
+                <div class="option-card" onclick="selectOption(this)">
+                    <div class="option-amount">₹3,999</div>
+                    <div class="option-coins">5,000 Coins</div>
+                    <div class="option-bonus">+1,500 Bonus</div>
+                </div>
+                <div class="option-card" onclick="selectOption(this)">
+                    <div class="option-amount">₹7,999</div>
+                    <div class="option-coins">10,000 Coins</div>
+                    <div class="option-bonus">+3,000 Bonus</div>
+                </div>
             </div>
-            
-            <button onclick="makeRequest()">
-                <i class="fas fa-rocket"></i> Launch Request
-            </button>
-            
-            <div id="response"></div>
+        </div>
+        
+        <div class="payment-methods">
+            <h2>Payment Method</h2>
+            <div class="method-option selected" onclick="selectMethod(this)">
+                <!-- PayPal logo -->
+                <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" 
+                     alt="PayPal" class="method-icon" 
+                     onerror="this.src='https://via.placeholder.com/40x25?text=PayPal'">
+                <div class="method-info">
+                    <div class="method-name">PayPal</div>
+                    <div class="method-desc">Pay with your PayPal account</div>
+                </div>
+            </div>
+            <div class="method-option" onclick="selectMethod(this)">
+                <!-- Credit card generic logo -->
+                <img src="https://cdn-icons-png.flaticon.com/512/179/179457.png" 
+                     alt="Credit Card" class="method-icon"
+                     onerror="this.src='https://via.placeholder.com/40x25?text=CreditCard'">
+                <div class="method-info">
+                    <div class="method-name">Credit/Debit Card</div>
+                    <div class="method-desc">Visa, Mastercard, etc.</div>
+                </div>
+            </div>
+            <div class="method-option" onclick="selectMethod(this)">
+                <!-- Google Pay logo -->
+                <img src="https://www.gstatic.com/instantbuy/svg/googlepay_dark.svg" 
+                     alt="Google Pay" class="method-icon"
+                     onerror="this.src='https://via.placeholder.com/40x25?text=GooglePay'">
+                <div class="method-info">
+                    <div class="method-name">Google Pay</div>
+                    <div class="method-desc">Fast and secure payment</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="recharge-button" onclick="processPayment()">Recharge Now</button>
+        
+        <button class="upi-button" onclick="redirectToUPI()">
+            <i class="fas fa-mobile-alt"></i> Pay via UPI
+        </button>
+        
+        <button class="whatsapp-button" onclick="openWhatsApp()">
+            <i class="fab fa-whatsapp"></i> WhatsApp for Cheaper Rates
+        </button>
+        
+        <div class="contact-section">
+            Contact us: <a href="mailto:premhmct6@gmail.com" class="contact-link">premhmct6@gmail.com</a>
+        </div>
+        
+        <div class="promo-section">
+            <a href="#" class="promo-link">Have a promo code? Click here</a>
         </div>
     </div>
-    
-    <footer>
-        <p>© 2025 Ghost</p>
-    </footer>
 
     <script>
-        // Create twinkling stars
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const starCount = 100;
+        let selectedOption = document.querySelector('.option-card.selected');
+        let selectedMethod = document.querySelector('.method-option.selected');
+        
+        function selectOption(element) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
             
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                
-                // Random properties for each star
-                const size = Math.random() * 3;
-                const posX = Math.random() * 100;
-                const posY = Math.random() * 100;
-                const opacity = Math.random() * 0.7 + 0.1;
-                const duration = Math.random() * 5 + 3;
-                const delay = Math.random() * 5;
-                
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.left = `${posX}%`;
-                star.style.top = `${posY}%`;
-                star.style.setProperty('--opacity', opacity);
-                star.style.setProperty('--duration', `${duration}s`);
-                star.style.animationDelay = `${delay}s`;
-                
-                starsContainer.appendChild(star);
-            }
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            selectedOption = element;
         }
         
-        // Initialize stars
-        createStars();
-        
-        async function makeRequest() {
-            const userId = document.getElementById('userId').value;
-            const responseDiv = document.getElementById('response');
+        function selectMethod(element) {
+            // Remove selected class from all methods
+            document.querySelectorAll('.method-option').forEach(method => {
+                method.classList.remove('selected');
+            });
             
-            if (!userId) {
-                responseDiv.innerHTML = `<div class="error-message" style="color: var(--danger)">
-                    <i class="fas fa-exclamation-circle"></i> Please enter a valid Cosmic User ID
-                </div>`;
-                responseDiv.classList.add('error-response');
-                createStarBurst(responseDiv);
+            // Add selected class to clicked method
+            element.classList.add('selected');
+            selectedMethod = element;
+        }
+        
+        function processPayment() {
+            const accountInput = document.querySelector('.account-input').value;
+            if (!accountInput) {
+                alert("Please enter your StarMaker SID");
                 return;
             }
-
-            responseDiv.innerHTML = "";
-            responseDiv.classList.add('loading');
-            responseDiv.className = ''; // Clear previous classes
-            responseDiv.classList.add('loading');
-            responseDiv.style.borderColor = "rgba(255, 215, 0, 0.3)";
             
-            const url = "https://pay.starmakerstudios.com/rapid/user";
-            const params = {
-                category: "6",
-                id: userId,
-                ts: Math.floor(Date.now() / 1000).toString() // Current timestamp
-            };
-
-            const headers = {
-                'User-Agent': "Mozilla/5.0 (Linux; U; Android 14; en-in; SM-E546B Build/UP1A.231005.007) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.88 Mobile Safari/537.36 HeyTapBrowser/45.11.5.1",
-                'Accept': "application/json, text/plain, */*",
-                'Origin': "https://m.starmakerstudios.com",
-                'Sec-Fetch-Site': "same-site",
-                'Sec-Fetch-Mode': "cors",
-                'Sec-Fetch-Dest': "empty",
-                'Referer': "https://m.starmakerstudios.com/",
-                'Accept-Language': "en-IN,en-US;q=0.9,en;q=0.8"
-            };
-
-            try {
-                // Build URL with query parameters
-                const urlWithParams = new URL(url);
-                Object.entries(params).forEach(([key, value]) => {
-                    urlWithParams.searchParams.append(key, value);
-                });
-
-                const response = await fetch(urlWithParams, {
-                    method: 'GET',
-                    headers: headers
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                responseDiv.classList.remove('loading');
-                responseDiv.innerHTML = formatResponse(data);
-                responseDiv.classList.add('success-response');
-                createStarBurst(responseDiv, "var(--success)");
-            } catch (error) {
-                responseDiv.classList.remove('loading');
-                responseDiv.innerHTML = `<div class="error-message" style="color: var(--danger)">
-                    <i class="fas fa-exclamation-triangle"></i> Error: ${error.message}
-                </div>`;
-                responseDiv.classList.add('error-response');
-                createStarBurst(responseDiv, "var(--danger)");
-            }
+            const amount = selectedOption.querySelector('.option-amount').textContent;
+            const coins = selectedOption.querySelector('.option-coins').textContent;
+            const method = selectedMethod.querySelector('.method-name').textContent;
+            
+            alert(`Processing payment of ${amount} for ${coins} via ${method}\nFor account: ${accountInput}\n\nThis is a demo. No actual payment will be processed.`);
         }
         
-        function formatResponse(data) {
-            if (!data) return '<div class="empty-response">No data received</div>';
-            
-            let html = '<table class="response-table">';
-            
-            for (const [key, value] of Object.entries(data)) {
-                html += `
-                    <tr>
-                        <td class="property-name">${escapeHtml(key)}</td>
-                        <td class="property-value">${formatValue(value)}</td>
-                    </tr>
-                `;
+        function redirectToUPI() {
+            const accountInput = document.querySelector('.account-input').value;
+            if (!accountInput) {
+                alert("Please enter your StarMaker SID");
+                return;
             }
             
-            html += '</table>';
-            return html;
+            const upiId = "premhmct6-2@oksbi";
+            const amount = selectedOption.querySelector('.option-amount').textContent.replace('₹', '');
+            const coins = selectedOption.querySelector('.option-coins').textContent;
+            
+            // Try to open UPI apps
+            window.location.href = `upi://pay?pa=${upiId}&pn=Starmaker%20Recharge&am=${amount}&cu=INR&tn=Payment%20for%20${coins}%20for%20account%20${accountInput}`;
+            
+            // Fallback if UPI apps not installed
+            setTimeout(function() {
+                alert(`Please send ₹${amount} to UPI ID: ${upiId}\nFor ${coins} recharge\nAccount: ${accountInput}\n\nAfter payment, share screenshot on WhatsApp: +919209354843`);
+            }, 500);
         }
         
-        function formatValue(value) {
-            if (value === null) return '<span style="color: var(--warning)">null</span>';
-            if (value === undefined) return '<span style="color: var(--warning)">undefined</span>';
+        function openWhatsApp() {
+            const accountInput = document.querySelector('.account-input').value;
+            const phoneNumber = "+919209354843";
+            const message = accountInput 
+                ? `Hi, I want to buy Starmaker coins at cheaper rates for account ${accountInput}. Please provide details.`
+                : "Hi, I want to buy Starmaker coins at cheaper rates. Please provide details.";
             
-            if (typeof value === 'object') {
-                if (Array.isArray(value)) {
-                    if (value.length === 0) return '<span style="color: var(--info)">Empty array</span>';
-                    
-                    let html = '';
-                    value.forEach((item, index) => {
-                        html += `<div class="array-item">${formatValue(item)}</div>`;
-                    });
-                    return html;
-                } else {
-                    // Handle nested objects
-                    let html = '<div class="nested-object">';
-                    for (const [nestedKey, nestedValue] of Object.entries(value)) {
-                        html += `<div><strong>${escapeHtml(nestedKey)}:</strong> ${formatValue(nestedValue)}</div>`;
-                    }
-                    html += '</div>';
-                    return html;
-                }
-            }
-            
-            // Format based on type
-            if (typeof value === 'string') {
-                return escapeHtml(value);
-            } else if (typeof value === 'number') {
-                return `<span style="color: var(--info)">${value}</span>`;
-            } else if (typeof value === 'boolean') {
-                return `<span style="color: ${value ? 'var(--success)' : 'var(--danger)'}">${value}</span>`;
-            }
-            
-            return escapeHtml(String(value));
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
-        
-        function escapeHtml(unsafe) {
-            return unsafe
-                .toString()
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-        
-        function createStarBurst(element, color = "var(--accent)") {
-            // Remove any existing particles first
-            document.querySelectorAll('.particle').forEach(p => p.remove());
-            
-            const rect = element.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                const size = Math.random() * 8 + 4;
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * 100 + 50;
-                const starType = Math.random() > 0.7 ? '★' : '✦';
-                
-                particle.textContent = starType;
-                particle.style.fontSize = `${size}px`;
-                particle.style.color = color || `hsl(${Math.random() * 60 + 0}, 100%, 70%)`;
-                particle.style.left = `${centerX}px`;
-                particle.style.top = `${centerY}px`;
-                particle.style.position = 'fixed';
-                particle.style.zIndex = '1000';
-                particle.style.pointerEvents = 'none';
-                particle.style.transformOrigin = 'center';
-                
-                document.body.appendChild(particle);
-                
-                // Animate particle
-                const animation = particle.animate([
-                    { 
-                        transform: `translate(0, 0) scale(1) rotate(0deg)`,
-                        opacity: 1 
-                    },
-                    { 
-                        transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0) rotate(${Math.random() * 360}deg)`,
-                        opacity: 0 
-                    }
-                ], {
-                    duration: 1000 + Math.random() * 500,
-                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-                    fill: 'forwards'
-                });
-                
-                animation.onfinish = () => particle.remove();
-            }
-        }
-        
-        // Add star burst animation to the container on hover
-        document.querySelector('.container').addEventListener('mouseenter', () => {
-            createStarBurst(document.querySelector('.container'), "var(--accent)");
-        });
     </script>
 </body>
 </html>
